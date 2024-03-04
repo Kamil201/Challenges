@@ -171,3 +171,117 @@ const handleSubmit = (e) => {
 	handleErrorMassage();
 	handleSuccessMessage();
 };
+
+
+
+// function render form elements
+const renderFormElements = () => {
+	const form = createTagElements("form", { class: "form__container" });
+
+	const containerInputEmailField = createTagElements("div", {
+		class: "form__input-field",
+	});
+
+	const label = createLabel("label", "email", "email", "Email");
+
+	const input = createInputElement(
+		"input",
+		"form__input",
+		"email",
+		"email",
+		"Enter your email...",
+
+	);
+
+	const containerInputPasswordField = createTagElements("div", {
+		class: "form__password-field",
+	});
+
+	const errorMessageEmail = createErrorMessage("p", "form__error-email", "");
+
+	const successMessageEmail = createSuccessMessageEmail(
+		"p",
+		"form__success-email",
+		""
+	);
+
+	const labelPassword = createLabelPassword(
+		"label",
+		"password",
+		"password",
+		"password"
+	);
+
+	const password = createInputPassword(
+		"input",
+		"password",
+		"form__input-password",
+		"password",
+		"Enter your password",
+		"8", // min-length
+		"20" // max-length
+		
+	);
+
+	const errorMessagePassword = createErrorMessagePassword(
+		"p",
+		"form__error-password",
+		""
+	);
+
+	const successMessagePassword = createSuccessMessagePassword(
+		"p",
+		"form__success-password",
+		""
+	);
+
+	const button = createButton("button", "form__button", "Submit");
+
+	form.append(containerInputEmailField, containerInputPasswordField, button);
+
+	containerInputEmailField.append(
+		label,
+		input,
+		errorMessageEmail,
+		successMessageEmail
+	);
+
+	containerInputPasswordField.append(
+		labelPassword,
+		password,
+		errorMessagePassword,
+		successMessagePassword
+	);
+
+	form.addEventListener("submit", handleSubmit);
+
+	return form;
+};
+
+// function renderApp:
+
+const renderApp = () => {
+	const container = createTagElements("div", { class: "form__content" }, [
+		renderFormElements(),
+	]);
+
+	return container;
+};
+
+// function init:
+
+const init = (containerSelector) => {
+	const container = document.querySelector(containerSelector);
+
+	if (!container) {
+		console.error(`container with selector: ${containerSelector} not found`);
+	}
+
+	const app = renderApp();
+
+	container.appendChild(app);
+};
+
+//wywołanie funkcji w określonym selektorze
+
+init(".form");
