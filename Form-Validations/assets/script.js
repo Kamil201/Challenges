@@ -129,3 +129,45 @@ const createButton = (type, className, text) => {
 	]);
 	return button;
 };
+
+
+// function checks are any field empty;
+
+const checkIsAnyEmpty = () => {
+	const inputs = [password, email];
+
+	const isInputEmpty = inputs.every((input) => input.value === "");
+	isInputEmpty
+		? (inputs.forEach((input) => {
+				input.parentElement.classList.add("error");
+		  }),
+		  (errorMessagePassword.innerText = "Can't be blank!"),
+		  (errorMessageEmail.innerText = "Can't be blank!"))
+
+		: null;
+};
+
+// function validate email:
+const validateEmail = (email) => {
+	const regex =
+		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return regex.test(String(email).toLowerCase());
+};
+
+// function validate password:
+
+const validatePassword = (password) => {
+	const regex =
+		/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+	return regex.test(password);
+};
+
+// function submitting form and invoking other functions:
+
+const handleSubmit = (e) => {
+	e.preventDefault();
+	checkIsAnyEmpty();
+	handleErrorMassage();
+	handleSuccessMessage();
+};
