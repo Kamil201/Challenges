@@ -302,3 +302,106 @@ const successMessageEmail = document.querySelector(".form__success-email");
 const successMessagePassword = document.querySelector(
 	".form__success-password"
 );
+
+
+// function validate fields
+const validateField = (
+	input,
+	errorElement,
+	validationFn,
+	errorMessage,
+	minLength,
+	required,
+	maxLength,
+	confirmPassword
+) => {
+	const value = input.value;
+	const isValid = validationFn(value);
+
+	if (required && value.trim() === "") {
+		input.parentElement.classList.add("error");
+		errorElement.textContent = "This field is required!";
+		return false;
+	}
+
+	if (minLength && value.length < minLength) {
+		input.parentElement.classList.add("error");
+		errorElement.textContent = `Must be at least ${minLength} characters long!`;
+
+		return false;
+	}
+
+	if (maxLength && value.length > maxLength) {
+		input.parentElement.classList.add("error");
+		errorElement.textContent = `Must be at most ${maxLength} characters long!`;
+		return false;
+	}
+
+	if (confirmPassword && value !== confirmPassword.value) {
+		input.parentElement.classList.add("error");
+		errorElement.textContent = "Passwords don't match!";
+		return false;
+	}
+
+	input.parentElement.classList.toggle("error", !isValid);
+	errorElement.textContent = isValid ? "" : errorMessage;
+
+	return isValid;
+};
+
+
+
+email.addEventListener("input", () => {
+	validateField(
+		email,
+		errorMessageEmail,
+		validateEmail,
+		"Wrong email format! Email must contain @ , one special character and no spaces !"
+	);
+	handleSuccessMessage();
+});
+
+password.addEventListener("input", () => {
+	validateField(
+		password,
+		errorMessagePassword,
+		validatePassword,
+		"Wrong password format!",
+		8,
+		"",
+		15
+	);
+	handleSuccessMessage();
+});
+
+const handleSuccessMessage = () => {
+	if (validateEmail(email.value)) {
+		email.parentElement.classList.remove("error");
+		errorMessageEmail.innerText = "";
+
+		successMessageEmail.innerText = "email is correct!";
+		email.parentElement.classList.add("success");
+	}
+
+	if (validatePassword(password.value)) {
+		password.parentElement.classList.remove("error");
+
+		errorMessagePassword.innerText = "";
+
+		successMessagePassword.innerText = "password is correct!";
+
+		password.parentElement.classList.add("success");
+	}
+};
+
+const handleErrorMassage = () => {
+	if (validateEmail(email.value)) {
+		email.parentElement.classList.add("error");
+		errorMessageEmail.innerText = "Wrong email format!";
+	}
+
+	if (validatePassword(password.value)) {
+		password.parentElement.classList.add("error");
+		errorMessagePassword.innerText = "Wrong password format!";
+	}
+};
