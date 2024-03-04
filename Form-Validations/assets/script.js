@@ -285,3 +285,20 @@ const init = (containerSelector) => {
 //wywołanie funkcji w określonym selektorze
 
 init(".form");
+
+
+// grabbing elements into DOM 
+
+const email = document.querySelector(".form__input");
+
+const password = document.querySelector(".form__input-password");
+
+const errorMessageEmail = document.querySelector(".form__error-email");
+
+const errorMessagePassword = document.querySelector(".form__error-password");
+
+const successMessageEmail = document.querySelector(".form__success-email");
+
+const successMessagePassword = document.querySelector(
+	".form__success-password"
+);
