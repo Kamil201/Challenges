@@ -96,3 +96,36 @@ const createInputPassword = (
 
 	return password;
 };
+
+
+// error message password:
+
+const createErrorMessagePassword = (tagName, className, text) => {
+	const errorMessagePassword = createTagElements(
+		tagName,
+		{ class: className },
+		[document.createTextNode(text)]
+	);
+	return errorMessagePassword;
+};
+
+// success message password:
+
+const createSuccessMessagePassword = (tagName, className, text) => {
+	const successMessagePassword = createTagElements(
+		tagName,
+		{ class: className },
+		[document.createTextNode(text)]
+	);
+
+	return successMessagePassword;
+};
+
+// button submit for form
+
+const createButton = (type, className, text) => {
+	const button = createTagElements(type, { class: className }, [
+		document.createTextNode(text),
+	]);
+	return button;
+};
