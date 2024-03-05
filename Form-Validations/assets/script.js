@@ -405,3 +405,50 @@ const handleErrorMassage = () => {
 		errorMessagePassword.innerText = "Wrong password format!";
 	}
 };
+
+let filter = false
+
+let tasks = [
+	{
+		name: 'wynieś śmieci', isCompleted: true,
+	},
+	{
+		name:'nauka programowania', isCompleted: false,
+	},
+	{
+		name:'zakupy', isCompleted: true
+	},
+	
+	{
+		name:'oglądanie tv', isCompleted: false
+	},
+	
+]
+
+const sortByCompleted = (a, b) => {
+	console.log('obiekt a', a);
+	console.log('obiekt b', b);
+	if(a.isCompleted === b.isCompleted) {
+		return 0
+	}else{
+		return a.isCompleted ? -1 : 1 
+	}
+}
+
+console.log(tasks.sort(sortByCompleted))
+
+// const filterTasks = (tasks, filter) => {
+// 	return tasks.filter(task => task.isCompleted === filter)
+// }
+
+// console.log(filterTasks(tasks, false));
+
+const filterTasks = (...tasks) => {
+	return tasks.includes(false)
+		? tasks.filter((task) => !task.isCompleted)
+		: tasks.filter((task) => task.isCompleted);
+};
+
+
+	console.log(filterTasks(...tasks));
+	console.log(filterTasks(false, ...tasks));
