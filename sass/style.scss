@@ -1,0 +1,61 @@
+//veriables
+$primary-color: rgb(113, 43, 148);
+$input-error-color: rgb(141, 47, 47);
+
+// map:
+
+$error: (
+    'color': rgb(255, 0, 0),
+    'font-weight': 400,
+    'font-size': 16px,
+);
+
+
+@mixin flexCenter($direction) {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: $direction;
+}
+
+body{
+    background-color: $primary-color;
+    min-height: 100vh;
+    @include flexCenter(column);
+}
+
+.form{
+    width: 80%;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 5px;
+    margin: 10px;
+
+    label{
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+
+    &__input,
+    &__input-password{
+
+        width:100%;
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        border-radius: 5px;
+        border: 1px solid $primary-color;
+        font-size: 1rem;
+        outline: none;
+    }
+
+    &__error-email,
+    &__error-password{
+        color: map-get($error, 'color');
+        font-weight: map-get($error, 'font-weight');
+        font-size: map-get($error, 'font-size');
+        margin: 0.5rem 0;
+    }
+
+
+}
