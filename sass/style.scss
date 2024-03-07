@@ -10,6 +10,11 @@ $error: (
     'font-size': 16px,
 );
 
+$success: (
+    'color': rgb(15, 129, 15),
+    'font-weight': 400,
+    'font-size': 16px,
+);
 
 @mixin flexCenter($direction) {
     display:flex;
@@ -69,6 +74,16 @@ body{
         color: #fff;
         cursor: pointer;
     }
-
-
+    &__success-email,
+    &__success-password{
+        color: map-get($success, 'color');
+        font-weight: map-get($success, 'font-weight');
+        font-size: map-get($success, 'font-size');
+        margin: 0.5rem 0;
+        border-radius: 5px;
+        font-size: 1rem;
+        outline: none;
+    }
 }
+
+    
