@@ -45,4 +45,13 @@ body {
   background-color: rgb(113, 43, 148);
   color: #fff;
   cursor: pointer;
+}
+.form__success-email, .form__success-password {
+  color: rgb(15, 129, 15);
+  font-weight: 400;
+  font-size: 16px;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
 }/*# sourceMappingURL=style.css.map */
