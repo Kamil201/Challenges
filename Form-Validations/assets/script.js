@@ -126,6 +126,16 @@ const createSuccessMessagePassword = (tagName, className, text) => {
 };
 
 
+//label confirm password
+
+const createLabelConfirmPassword = (type, forAttribute, text) => {
+    const labelConfirmPassword = createTagElements(type, { for: forAttribute }, [
+        document.createTextNode(text),
+    ]);
+
+    return labelConfirmPassword;
+};
+
 // confirm password:
 const createConfirmPassword = (
 	tagName,
@@ -151,6 +161,7 @@ const createConfirmErrorMessage = (tagName, className, text) => {
 		{ class: className },
 		[document.createTextNode(text)].filter(tagName => tagName !== null)
 	)
+	return confirmErrorMessage;
 }
 
 // button submit for form
@@ -166,7 +177,7 @@ const createButton = (type, className, text) => {
 // function checks are any field empty;
 
 const checkIsAnyEmpty = () => {
-	const inputs = [password, email];
+	const inputs = [password, email, confirmPassword];
 
 	const isInputEmpty = inputs.every((input) => input.value === "");
 	isInputEmpty
@@ -174,8 +185,9 @@ const checkIsAnyEmpty = () => {
 				input.parentElement.classList.add("error");
 		  }),
 		  (errorMessagePassword.innerText = "Can't be blank!"),
-		  (errorMessageEmail.innerText = "Can't be blank!"))
-
+		  (errorMessageEmail.innerText = "Can't be blank!"))(
+			(errorMessagePasswordConfirm.innerText = "Can't be blank!")
+		  )
 		: null;
 };
 
@@ -271,6 +283,13 @@ const renderFormElements = () => {
         class: "form__confirm-password-field",
 
     });
+
+	const labelConfirmPassword = createLabelConfirmPassword(
+        "label",
+        "confirm-password",
+        "confirm-password",
+        "confirm-password")
+
 	const confirmPassword = createConfirmPassword(
 		"input",
 		"password",
@@ -280,6 +299,17 @@ const renderFormElements = () => {
 		"8",
 		"20"
 	)
+
+	const errorMessagePasswordConfirm = createConfirmErrorMessage(
+		"p",
+		"form__error-confirm-password",
+		"",
+	);
+	const successMessagePasswordConfirm = createSuccessMessagePassword(
+        "p",
+        "form__success-confirm-password",
+		"" ,
+    );
 
 	const button = createButton("button", "form__button", "Submit");
 
@@ -300,10 +330,11 @@ const renderFormElements = () => {
 	);
 
 	containerInputConfirmPasswordField.append(
-			confirmPassword,
-			errorMessagePassword,
-			successMessagePassword
-		);
+		labelConfirmPassword,
+		confirmPassword,
+		errorMessagePasswordConfirm,
+		successMessagePasswordConfirm
+	);
 
 	form.addEventListener("submit", handleSubmit);
 
@@ -355,8 +386,13 @@ const successMessagePassword = document.querySelector(
 	".form__success-password"
 );
 
+const confirmPassword = document.querySelector(".form__input-confirm-password")
 
-// function validate fields
+const errorMessagePasswordConfirm = document.querySelector(".form__error-confirm-password")
+
+const successMessagePasswordConfirm = document.querySelector('.form__success-confirm-password')
+
+// function validate fields 
 const validateField = (
 	input,
 	errorElement,
