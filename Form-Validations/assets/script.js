@@ -473,8 +473,7 @@ confirmPassword.addEventListener("input", () => {
         "Passwords don't match!",
         8,
         true,
-        15,
-        password
+        15
     );
     handleSuccessMessage();
 })
