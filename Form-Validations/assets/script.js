@@ -65,6 +65,11 @@ const inputPasswordContainerField = () => {
 	return container;
 };
 
+const inputPasswordConfirmContainerField = () => {
+	const container = createTagElements("div", { class: "form__confirm-password-field" });
+	return container;
+}
+
 //label password
 
 const createLabelPassword = (type, forAttribute, text) => {
@@ -97,7 +102,6 @@ const createInputPassword = (
 	return password;
 };
 
-
 // error message password:
 
 const createErrorMessagePassword = (tagName, className, text) => {
@@ -120,6 +124,34 @@ const createSuccessMessagePassword = (tagName, className, text) => {
 
 	return successMessagePassword;
 };
+
+
+// confirm password:
+const createConfirmPassword = (
+	tagName,
+	typeAttribute,
+	className,
+	id,
+	placeholder
+) => {
+	const confirmPassword = createTagElements(tagName, {
+		type: typeAttribute,
+		class: className,
+		id: id,
+		placeholder: placeholder,
+	});
+
+	return confirmPassword;
+};
+
+//confirm error confirm message
+const createConfirmErrorMessage = (tagName, className, text) => {
+	const confirmErrorMessage = createTagElements(
+		tagName,
+		{ class: className },
+		[document.createTextNode(text)].filter(tagName => tagName !== null)
+	)
+}
 
 // button submit for form
 
@@ -235,9 +267,23 @@ const renderFormElements = () => {
 		""
 	);
 
+	const containerInputConfirmPasswordField = createTagElements("div", {
+        class: "form__confirm-password-field",
+
+    });
+	const confirmPassword = createConfirmPassword(
+		"input",
+		"password",
+		"form__input-confirm-password",
+		"confirm-password",
+		"Confirm your password",
+		"8",
+		"20"
+	)
+
 	const button = createButton("button", "form__button", "Submit");
 
-	form.append(containerInputEmailField, containerInputPasswordField, button);
+	form.append(containerInputEmailField, containerInputPasswordField, containerInputConfirmPasswordField, button);
 
 	containerInputEmailField.append(
 		label,
@@ -252,6 +298,12 @@ const renderFormElements = () => {
 		errorMessagePassword,
 		successMessagePassword
 	);
+
+	containerInputConfirmPasswordField.append(
+			confirmPassword,
+			errorMessagePassword,
+			successMessagePassword
+		);
 
 	form.addEventListener("submit", handleSubmit);
 
