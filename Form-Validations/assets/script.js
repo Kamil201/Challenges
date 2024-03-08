@@ -444,8 +444,11 @@ email.addEventListener("input", () => {
 		email,
 		errorMessageEmail,
 		validateEmail,
-		"Wrong email format! Email must contain @ , one special character and no spaces !"
+		"Wrong email format! Email must contain @ , one special character and no spaces !",
+		'',
+		true
 	);
+
 	handleSuccessMessage();
 });
 
@@ -456,11 +459,25 @@ password.addEventListener("input", () => {
 		validatePassword,
 		"Wrong password format!",
 		8,
-		"",
+		true,
 		15
 	);
 	handleSuccessMessage();
 });
+
+confirmPassword.addEventListener("input", () => {
+	validateField(
+        confirmPassword,
+        errorMessagePasswordConfirm,
+        validatePassword,
+        "Passwords don't match!",
+        8,
+        true,
+        15,
+        password
+    );
+    handleSuccessMessage();
+})
 
 const handleSuccessMessage = () => {
 	if (validateEmail(email.value)) {
@@ -480,6 +497,18 @@ const handleSuccessMessage = () => {
 
 		password.parentElement.classList.add("success");
 	}
+
+	if(validatePassword(confirmPassword.value)) {
+
+		confirmPassword.parentElement.classList.remove("error");
+
+		errorMessagePasswordConfirm.innerText = "";
+
+		successMessagePasswordConfirm.innerText = "confirm password is correct!";
+
+		confirmPassword.parentElement.classList.add("success");
+}
+
 };
 
 const handleErrorMassage = () => {
