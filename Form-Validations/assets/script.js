@@ -218,6 +218,26 @@ const handleSubmit = (e) => {
 
 
 
+
+// Create a button to toggle password visibility
+const createVisibilityToggle = () => {
+    const toggleButton = createButton("button", "form__toggle-button", "");
+    const icon = createTagElements("i", { class: "bx bxs-show" });
+
+    toggleButton.appendChild(icon);
+
+    toggleButton.addEventListener("click", () => {
+        const type = password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+
+        // Toggle the icon based on password visibility
+        icon.className = type === "password" ? "bx bxs-show" : "bx bxs-hide";
+    });
+
+    return toggleButton;
+};
+
+
 // function render form elements
 const renderFormElements = () => {
 	const form = createTagElements("form", { class: "form__container" });
@@ -237,6 +257,7 @@ const renderFormElements = () => {
 
 	);
 
+	
 	const containerInputPasswordField = createTagElements("div", {
 		class: "form__password-field",
 	});
