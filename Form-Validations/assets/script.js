@@ -1,17 +1,33 @@
 // function createDOMElements:
-
 const createTagElements = (tagName, attribute = {}, children = []) => {
 	const tagElement = document.createElement(tagName);
+
+	if (!Object.keys(attribute).length) {
+		return tagElement;
+	}
+
+	if (typeof attribute !== "object") {
+		throw new TypeError("Attribute must be an object");
+	}
+
+	if (!Array.isArray(children)) {
+		throw new TypeError("Children must be an array");
+	}
 
 	for (const [key, value] of Object.entries(attribute)) {
 		tagElement.setAttribute(key, value);
 	}
 
-	children.forEach((child) => tagElement.appendChild(child));
+	children.forEach((child) => {
+		if (child instanceof Node) {
+			tagElement.appendChild(child);
+		} else {
+			throw new TypeError("Child must be an instance of Node");
+		}
+	});
 
 	return tagElement;
 };
-
 
 // input email
 const createInputElement = (type, className, id, name, placeholder) => {
@@ -66,9 +82,11 @@ const inputPasswordContainerField = () => {
 };
 
 const inputPasswordConfirmContainerField = () => {
-	const container = createTagElements("div", { class: "form__confirm-password-field" });
+	const container = createTagElements("div", {
+		class: "form__confirm-password-field",
+	});
 	return container;
-}
+};
 
 //label password
 
@@ -96,7 +114,7 @@ const createInputPassword = (
 		id: id,
 		placeholder: placeholder,
 		minLength: minLength,
-		maxLength: maxLength
+		maxLength: maxLength,
 	});
 
 	return password;
@@ -125,15 +143,14 @@ const createSuccessMessagePassword = (tagName, className, text) => {
 	return successMessagePassword;
 };
 
-
 //label confirm password
 
 const createLabelConfirmPassword = (type, forAttribute, text) => {
-    const labelConfirmPassword = createTagElements(type, { for: forAttribute }, [
-        document.createTextNode(text),
-    ]);
+	const labelConfirmPassword = createTagElements(type, { for: forAttribute }, [
+		document.createTextNode(text),
+	]);
 
-    return labelConfirmPassword;
+	return labelConfirmPassword;
 };
 
 // confirm password:
@@ -159,10 +176,10 @@ const createConfirmErrorMessage = (tagName, className, text) => {
 	const confirmErrorMessage = createTagElements(
 		tagName,
 		{ class: className },
-		[document.createTextNode(text)].filter(tagName => tagName !== null)
-	)
+		[document.createTextNode(text)].filter((tagName) => tagName !== null)
+	);
 	return confirmErrorMessage;
-}
+};
 
 // button submit for form
 
@@ -172,7 +189,6 @@ const createButton = (type, className, text) => {
 	]);
 	return button;
 };
-
 
 // function checks are any field empty;
 
@@ -186,12 +202,9 @@ const checkIsAnyEmpty = () => {
 		  }),
 		  (errorMessagePassword.innerText = "Can't be blank!"),
 		  (errorMessageEmail.innerText = "Can't be blank!"),
-		  (errorMessagePasswordConfirm.innerText = "Can't be blank!"
-		  ))
-		  
+		  (errorMessagePasswordConfirm.innerText = "Can't be blank!"))
 		: null;
 };
-
 
 // function validate email:
 const validateEmail = (email) => {
@@ -210,18 +223,18 @@ const validatePassword = (password) => {
 };
 
 const evaluatePasswordStrength = (password) => {
-	
 	const passwordCriteria = [
-		{label:'Very weak', minLength: 6, score: 0},
-		{label:'Weak', minLength: 8, score: 1},
-		{label:'Medium', minLength: 10, score: 2},
-		{label:'Strong', minLength: 12, score: 3},
-		{label:'Very strong', minLength: 14, score: 4}
+		{ label: "Very weak", minLength: 6, score: 0 },
+		{ label: "Weak", minLength: 8, score: 1 },
+		{ label: "Medium", minLength: 10, score: 2 },
+		{ label: "Strong", minLength: 12, score: 3 },
+		{ label: "Very strong", minLength: 14, score: 4 },
 	];
 
-	return passwordCriteria.find(({minLength, score}) => password.length >= minLength).score;
-
-}
+	return passwordCriteria.find(
+		({ minLength, score }) => password.length >= minLength
+	).score;
+};
 
 // function submitting form and invoking other functions:
 
@@ -232,25 +245,23 @@ const handleSubmit = (e) => {
 	handleSuccessMessage();
 };
 
-
-
-
 // Create a button to toggle password visibility
 const createVisibilityToggle = () => {
-    const toggleButton = createButton("button", "form__toggle-button", "");
-    const icon = createTagElements("i", { class: "bx bxs-show" });
+	const toggleButton = createButton("button", "form__toggle-button", "");
+	const icon = createTagElements("i", { class: "bx bxs-show" });
 
-    toggleButton.appendChild(icon);
+	toggleButton.appendChild(icon);
 
-    toggleButton.addEventListener("click", () => {
-        const type = password.getAttribute("type") === "password" ? "text" : "password";
-        password.setAttribute("type", type);
+	toggleButton.addEventListener("click", () => {
+		const type =
+			password.getAttribute("type") === "password" ? "text" : "password";
+		password.setAttribute("type", type);
 
-        // Toggle the icon based on password visibility
-        icon.className = type === "password" ? "bx bxs-show" : "bx bxs-hide";
-    });
+		// Toggle the icon based on password visibility
+		icon.className = type === "password" ? "bx bxs-show" : "bx bxs-hide";
+	});
 
-    return toggleButton;
+	return toggleButton;
 };
 
 // function render form elements
@@ -268,11 +279,9 @@ const renderFormElements = () => {
 		"form__input",
 		"email",
 		"email",
-		"Enter your email...",
-
+		"Enter your email..."
 	);
 
-	
 	const containerInputPasswordField = createTagElements("div", {
 		class: "form__password-field",
 	});
@@ -300,7 +309,6 @@ const renderFormElements = () => {
 		"Enter your password",
 		"8", // min-length
 		"20" // max-length
-		
 	);
 
 	const errorMessagePassword = createErrorMessagePassword(
@@ -316,15 +324,15 @@ const renderFormElements = () => {
 	);
 
 	const containerInputConfirmPasswordField = createTagElements("div", {
-        class: "form__confirm-password-field",
-
-    });
+		class: "form__confirm-password-field",
+	});
 
 	const labelConfirmPassword = createLabelConfirmPassword(
-        "label",
-        "confirm-password",
-        "confirm-password",
-        "confirm-password")
+		"label",
+		"confirm-password",
+		"confirm-password",
+		"confirm-password"
+	);
 
 	const confirmPassword = createConfirmPassword(
 		"input",
@@ -334,22 +342,27 @@ const renderFormElements = () => {
 		"Confirm your password",
 		"8",
 		"20"
-	)
+	);
 
 	const errorMessagePasswordConfirm = createConfirmErrorMessage(
 		"p",
 		"form__error-confirm-password",
-		"",
+		""
 	);
 	const successMessagePasswordConfirm = createSuccessMessagePassword(
-        "p",
-        "form__success-confirm-password",
-		"" ,
-    );
+		"p",
+		"form__success-confirm-password",
+		""
+	);
 
 	const button = createButton("button", "form__button", "Submit");
 
-	form.append(containerInputEmailField, containerInputPasswordField, containerInputConfirmPasswordField, button);
+	form.append(
+		containerInputEmailField,
+		containerInputPasswordField,
+		containerInputConfirmPasswordField,
+		button
+	);
 
 	containerInputEmailField.append(
 		label,
@@ -405,8 +418,7 @@ const init = (containerSelector) => {
 
 init(".form");
 
-
-// grabbing elements into DOM 
+// grabbing elements into DOM
 
 const email = document.querySelector(".form__input");
 
@@ -422,13 +434,17 @@ const successMessagePassword = document.querySelector(
 	".form__success-password"
 );
 
-const confirmPassword = document.querySelector(".form__input-confirm-password")
+const confirmPassword = document.querySelector(".form__input-confirm-password");
 
-const errorMessagePasswordConfirm = document.querySelector(".form__error-confirm-password")
+const errorMessagePasswordConfirm = document.querySelector(
+	".form__error-confirm-password"
+);
 
-const successMessagePasswordConfirm = document.querySelector('.form__success-confirm-password')
+const successMessagePasswordConfirm = document.querySelector(
+	".form__success-confirm-password"
+);
 
-// function validate fields 
+// function validate fields
 const validateField = (
 	input,
 	errorElement,
@@ -470,11 +486,9 @@ const validateField = (
 	input.parentElement.classList.toggle("error", !isValid);
 	errorElement.textContent = isValid ? "" : errorMessage;
 
-	
 	if (input.id === "password") {
 		const passwordStrength = evaluatePasswordStrength(value);
 		console.log("Siła hasła:", passwordStrength);
-	
 	}
 
 	input.parentElement.classList.toggle("error", !isValid);
@@ -483,15 +497,13 @@ const validateField = (
 	return isValid;
 };
 
-
-
 email.addEventListener("input", () => {
 	validateField(
 		email,
 		errorMessageEmail,
 		validateEmail,
 		"Wrong email format! Email must contain @ , one special character and no spaces !",
-		'',
+		"",
 		true
 	);
 
@@ -506,24 +518,23 @@ password.addEventListener("input", () => {
 		"Wrong password format!",
 		8,
 		true,
-		15,
-
+		15
 	);
 	handleSuccessMessage();
 });
 
 confirmPassword.addEventListener("input", () => {
 	validateField(
-        confirmPassword,
-        errorMessagePasswordConfirm,
-        validatePassword,
-        "Passwords don't match!",
-        8,
-        true,
-        15
-    );
-    handleSuccessMessage();
-})
+		confirmPassword,
+		errorMessagePasswordConfirm,
+		validatePassword,
+		"Passwords don't match!",
+		8,
+		true,
+		15
+	);
+	handleSuccessMessage();
+});
 
 const handleSuccessMessage = () => {
 	if (validateEmail(email.value)) {
@@ -544,8 +555,7 @@ const handleSuccessMessage = () => {
 		password.parentElement.classList.add("success");
 	}
 
-	if(validatePassword(confirmPassword.value)) {
-
+	if (validatePassword(confirmPassword.value)) {
 		confirmPassword.parentElement.classList.remove("error");
 
 		errorMessagePasswordConfirm.innerText = "";
@@ -553,8 +563,7 @@ const handleSuccessMessage = () => {
 		successMessagePasswordConfirm.innerText = "confirm password is correct!";
 
 		confirmPassword.parentElement.classList.add("success");
-}
-
+	}
 };
 
 const handleErrorMassage = () => {
