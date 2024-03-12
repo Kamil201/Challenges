@@ -178,18 +178,20 @@ const createButton = (type, className, text) => {
 
 const checkIsAnyEmpty = () => {
 	const inputs = [password, email, confirmPassword];
-
 	const isInputEmpty = inputs.every((input) => input.value === "");
+
 	isInputEmpty
 		? (inputs.forEach((input) => {
 				input.parentElement.classList.add("error");
 		  }),
 		  (errorMessagePassword.innerText = "Can't be blank!"),
-		  (errorMessageEmail.innerText = "Can't be blank!"))(
-			(errorMessagePasswordConfirm.innerText = "Can't be blank!")
-		  )
+		  (errorMessageEmail.innerText = "Can't be blank!"),
+		  (errorMessagePasswordConfirm.innerText = "Can't be blank!"
+		  ))
+		  
 		: null;
 };
+
 
 // function validate email:
 const validateEmail = (email) => {
@@ -206,6 +208,20 @@ const validatePassword = (password) => {
 
 	return regex.test(password);
 };
+
+const evaluatePasswordStrength = (password) => {
+	
+	const passwordCriteria = [
+		{label:'Very weak', minLength: 6, score: 0},
+		{label:'Weak', minLength: 8, score: 1},
+		{label:'Medium', minLength: 10, score: 2},
+		{label:'Strong', minLength: 12, score: 3},
+		{label:'Very strong', minLength: 14, score: 4}
+	];
+
+	return passwordCriteria.find(({minLength, score}) => password.length >= minLength).score;
+
+}
 
 // function submitting form and invoking other functions:
 
@@ -236,7 +252,6 @@ const createVisibilityToggle = () => {
 
     return toggleButton;
 };
-
 
 // function render form elements
 const renderFormElements = () => {
@@ -455,6 +470,16 @@ const validateField = (
 	input.parentElement.classList.toggle("error", !isValid);
 	errorElement.textContent = isValid ? "" : errorMessage;
 
+	
+	if (input.id === "password") {
+		const passwordStrength = evaluatePasswordStrength(value);
+		console.log("Siła hasła:", passwordStrength);
+	
+	}
+
+	input.parentElement.classList.toggle("error", !isValid);
+	errorElement.textContent = isValid ? "" : errorMessage;
+
 	return isValid;
 };
 
@@ -481,7 +506,8 @@ password.addEventListener("input", () => {
 		"Wrong password format!",
 		8,
 		true,
-		15
+		15,
+
 	);
 	handleSuccessMessage();
 });
