@@ -1,4 +1,4 @@
-//veriables
+//vriables
 $primary-color: rgb(113, 43, 148);
 $input-error-color: rgb(141, 47, 47);
 
@@ -43,7 +43,8 @@ body{
     }
 
     &__input,
-    &__input-password{
+    &__input-password,
+    &__input-confirm-password{
 
         width:100%;
         padding: 0.5rem;
@@ -55,7 +56,8 @@ body{
     }
 
     &__error-email,
-    &__error-password{
+    &__error-password,
+    &__error-confirm-password{
         color: map-get($error, 'color');
         font-weight: map-get($error, 'font-weight');
         font-size: map-get($error, 'font-size');
@@ -75,7 +77,8 @@ body{
         cursor: pointer;
     }
     &__success-email,
-    &__success-password{
+    &__success-password,
+    &__success-confirm-password{
         color: map-get($success, 'color');
         font-weight: map-get($success, 'font-weight');
         font-size: map-get($success, 'font-size');
@@ -85,5 +88,4 @@ body{
         outline: none;
     }
 }
-
     
